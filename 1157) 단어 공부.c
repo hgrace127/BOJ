@@ -2,38 +2,37 @@
 #include <stdio.h>
 #include <string.h>
 
-char str[1000001];
-
-typedef struct _ALPHABET {
-	char word;
-	int count;
-}ALPHABET;
-
 int main() {
-	int i, j, alphaIdx = 0, maxId, maxCount = 0;
-	ALPHABET alpha[26];
-	memset(str, 0, strlen(str));
-	memset(&alpha, 0, sizeof(struct _ALPHABET));
-	get(str);
+	int i = 0, flag = 0,  max = 0;
+	char str[1000001], ans;
+	int alphabet[26];
+	int len;
+	memset(str, 0x00, sizeof(str));
+	memset(alphabet, 0, sizeof(alphabet));
 
-	for (i = 0; i < strlen(str); i++) {
-		for (j = 0; j < sizeof(alpha)/sizeof(ALPHABET); j++) {
-			if (str[i] != alpha[j].word) {
-				alpha[alphaIdx].word = str[i];
-				alpha[alphaIdx].count++;
-				break;
-			}
+	scanf("%s", str);
+	len = strlen(str);
+	for (i = 0; i < len; i++) {
+		if (str[i] >= 'a' && str[i] <= 'z') {
+			str[i] = str[i] - 32;				// 소문자 -> 대문자 변환
+		}
+		alphabet[str[i] - 'A']++;
+		if (max < alphabet[str[i] - 'A']) {
+			max = alphabet[str[i] - 'A'];
+			ans = str[i];
 		}
 	}
 
-	for (i = 0; i < sizeof(alpha) / sizeof(ALPHABET); i++) {
-		
-		if(maxCount < alpha[i].count)
-
+	for (i = 0; i < sizeof(alphabet)/sizeof(int); i++) {
+		if (max == alphabet[i]) {
+			flag++;
+			if (flag >= 2) {
+				printf("?");
+				return 0;
+			}
+		}
 	}
-
-	
-
-
+	printf("%c", ans);
 	return 0;
 }
+// 시간 초과
