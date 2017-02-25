@@ -35,4 +35,3 @@ int main() {
 	printf("%c", ans);
 	return 0;
 }
-// 시간 초과
