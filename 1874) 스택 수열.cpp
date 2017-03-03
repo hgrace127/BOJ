@@ -1,35 +1,36 @@
-#include <stdio.h>
-#include <cstring>
-int s[100000];
-int userArr[100000] = { 0, };
-char ans[200001];
-int idx = -1, ansIdx = 0, aIdx = 0;
+#include <iostream>
+#include <stack>
+#include <queue>
+using namespace std;
 int main() {
-	unsigned int N, i = 0, len;
-	scanf("%d", &N);
-	memset(s, -1, sizeof(s));
+	int N, num, len;
+	int i;
+	queue<char> ans;
+	queue<int> in;
+	stack<int> stk;
+	cin >> N;
+	// USER INPUT
 	for (i = 0; i < N; i++) {
-		scanf("%d", &userArr[i]);
+		cin >> num;
+		in.push(num);
 	}
 	for (i = 1; i <= N; i++) {
-		// push
-		ans[ansIdx++] = '+';
-		s[++idx] = i;
-		while (idx >= 0 && (s[idx] == userArr[aIdx])) {
-			// pop
-			ans[ansIdx++] = '-';
-			s[idx--] = -1;
-			aIdx++;
+		ans.push('+');
+		stk.push(i);
+		while (stk.size() != 0 && stk.top() == in.front()) {
+			ans.push('-');
+			stk.pop();
+			in.pop();
 		}
 	}
-	len = strlen(ans);
-	//IsEmpty
-	if (idx == -1) {
-		for (i = 0; i < len; i++)
-			printf("%c\n", ans[i]);
-	}
-	else {
-		printf("NO");
+	if (!stk.size()) {
+		len = ans.size();
+		for (i = 0; i < len; i++) {
+			cout << ans.front() << '\n';
+			ans.pop();
+		}
+	}else {
+		cout << "NO";
 	}
 	return 0;
 }
